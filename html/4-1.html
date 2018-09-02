@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用组件的细节点</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <!--如果直接使用<row>，则会渲染在<table>外面 这里使用is特性，在table中显示row组件-->
+            <tbody>
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+            </tbody>
+        </table>
+
+
+        <div ref="myDiv" @click="handleClick">hello world</div>
+    </div>
+    <script>
+        Vue.component("row", {
+//            定义的子组件中，data需要是一个函数，因为子组件会被调用多次，为了每个子组件都有自己的独立数据
+            data: function () {
+                return {
+                    content: "this is a row"
+                }
+            },
+            template: "<tr><td>{{content}}</td></tr>"
+        })
+
+        var vm = new Vue({
+            el: "#app",
+            methods: {
+                handleClick: function () {
+//                    有些情况不得不操作dom，使用ref指定该dom名称进行引用，
+//                    如果是对自定义的组件添加ref属性，那获取到的是该组件的引用，可以直接访问组件中的元素和方法
+                    alert(this.$refs.myDiv.innerText);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
