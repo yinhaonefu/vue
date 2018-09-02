@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>条件渲染</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--如果show是false，页面dom中不会包含div-->
+        <div v-if="show">{{message}}</div>
+        <div v-else>bye world</div>
+
+        <div v-if="variable === 'a'">this is a</div>
+        <div v-else-if="variable === 'b'">this is b</div>
+        <div v-else>this is c</div>
+
+        <!--如果show是false，页面dom中会包含div，只不过display: none;-->
+        <div v-show="show">{{message}}</div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                show: false,
+                message: "hello world",
+                variable: "a"
+            }
+        })
+    </script>
+</body>
+</html>
