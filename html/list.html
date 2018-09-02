@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--使用template占位符包裹循环体，页面上不会显示该标签-->
+        <template v-for="(item, index) of list" >
+            <div :key="item.id">
+                {{item.text}}
+            </div>
+            <span>
+                {{item.id}}
+            </span>
+        </template>
+
+        <!--循环对象里的每一个属性-->
+        <div v-for="(item, index, key) of userInfo">
+            {{item}} -- {{index}} -- {{key}}
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                list: [
+                    {id:1,text:"hello"},
+                    {id:2,text:"world"},
+                    {id:3,text:"welcome"}
+                ],
+                userInfo: {
+                    name: "zhangsan",
+                    age: 20,
+                    gender: "male"
+                }
+            }
+        })
+    </script>
+    <!--对list操作时，不能直接通过数组下标修改数组中元素内容，-->
+    <!--可以使用其他操作数组的方法 list.splice(1,1,{id:"4",text:"helloworld"})，从下标1开始，删除1个元素，插入一个对象-->
+    <!--pop push shift unshift splice sort reverse-->
+
+    <!--另一个方式是直接改变list指向的引用，也就是指向一个新的数组-->
+
+    <!--同理，如果想改变userInfo中的属性值，vm.userInfo.name = "lisi"即可，但是如果增加属性，就需要重新指向新的对象-->
+</body>
+</html>
