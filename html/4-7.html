@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的作用域插槽</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child>
+            <!--作用域插槽的使用场景，当需要展示的列表或者其他dom，需要由外部指定使用什么标签展示时-->
+            <!--作用域插槽必须包含在template标签中-->
+            <!--props可以自己定义，用于接收子组件中传递的数据item-->
+            <template slot-scope="props">
+                <!--可以指定使用li或者h1等任意标签展示列表-->
+                <li>{{props.item}} - hello</li>
+            </template>
+        </child>
+    </div>
+    <script>
+        Vue.component("child", {
+            data: function(){
+                return {
+                    list: [1, 2, 3, 4]
+                }
+            },
+            template: "<div>" +
+                        "<ul>" +
+                        "<slot v-for='item of list' :item='item'>{{item}}</slot>" +
+                        "</ul>" +
+                    "</div>"
+        })
+
+        var vm = new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+</html>
