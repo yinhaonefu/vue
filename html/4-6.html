@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的插槽(slot)</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child>
+            <p slot="zhangsan">zhangsan</p>
+            <p slot="lisi">lisi</p>
+        </child>
+    </div>
+    <script>
+        //使用插槽可以通过父组件向子组件传dom标签，可以根据slot的name属性确定插入位置，如果未发现该slot显示默认值
+        Vue.component("child", {
+            template: "<div>" +
+                    "<slot name='zhangsan'></slot>" +
+                    "<div>hello</div>" +
+                    "<slot name='lisi'></slot>" +
+                    "<slot name='wangwu'>detault</slot>" +
+                    "</div>"
+        })
+
+        var vm = new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+</html>
