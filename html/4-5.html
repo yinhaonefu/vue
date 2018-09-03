@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间的传值</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child content="zhangsan"></child>
+        <child content="lisi"></child>
+    </div>
+    <script>
+        //所有的Vue实例都会拥有这个属性，用于在各个实例间传递事件
+        Vue.prototype.bus = new Vue();
+
+        Vue.component("child",{
+            data: function(){
+                return {
+                    myContent: this.content
+                }
+            },
+            props: {
+                content: String
+            },
+            template: "<div @click='handleClick'>{{myContent}}</div>",
+            methods: {
+                handleClick: function () {
+                    this.bus.$emit("chan",this.myContent);
+                }
+            },
+            mounted: function () {
+                let _this = this;
+                this.bus.$on("chan", function (value) {
+                    _this.myContent = value;
+                })
+            }
+        })
+
+        var vm = new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+</html>
