@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子组件间数据传递</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <counter :count="3" @increase="handleIncrease"></counter>
+        <counter :count="2" @increase="handleIncrease"></counter>
+        <div>{{total}}</div>
+    </div>
+    <script>
+        let counter = {
+            props: ["count"],
+            data: function(){
+                return {
+                    //自定义变量，初始值是父组件传递的值
+                    number: this.count
+                }
+            },
+            template: "<div @click='handleClick'>{{number}}</div>",
+            methods: {
+                handleClick: function () {
+                    //子组件不允许直接修改父组件传递进来的参数
+                    // this.count++;
+                    //可以使用自定义变量接受到父组件传递的count，然后修改自定义的变量
+                    this.number++;
+                    //触发绑定在当前组件的increase事件
+                    this.$emit("increase",1);
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                total: 5
+            },
+            components: {
+                counter: counter
+            },
+            methods: {
+                handleIncrease: function (count) {
+                    this.total = this.total + count;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
