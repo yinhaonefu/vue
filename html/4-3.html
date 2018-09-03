@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件参数校验与非props特性</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--使用:content时，会将aaa当做js表达式，会提示aaa未定义-->
+        <!--<child :content="aaa"></child>-->
+        <!--使用content="hello"才会将hello当做一个文本内容-->
+        <child content="hello"></child>
+
+        <!--如果子组件的props中未定义content，就属于非props特性，子组件中就无法使用-->
+    </div>
+    <script>
+        Vue.component("child",{
+            props: {
+                content: {
+                    type: String,
+                    required: true,
+                    default: "welcome",
+                    validator: function (value) {
+                        return value.length > 1
+                    }
+                }
+            },
+            template: "<div>{{content}}</div>"
+        })
+
+        var vm = new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+</html>
