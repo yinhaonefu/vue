@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件与v-once指令</title>
+    <script src="../js/vue-2.5.17.js"></script>
+</head>
+<body>
+    <!--定义两个子组件，通过点击change切换显示-->
+    <div id="app">
+        <!--根据改变type的内容，展示不同的component-->
+        <component :is="type"></component>
+        <button @click="handleClick">change</button>
+    </div>
+    <script>
+        // 在切换过程中，vue不断做着创建和销毁操作，为了提高性能可以从缓存中服用原来的组件可以添加v-once
+        Vue.component("child-one", {
+            template: "<div v-once>child-one</div>"
+        })
+
+        Vue.component("child-two", {
+            template: "<div v-once>child-two</div>"
+        })
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                type: "child-one"
+            },
+            methods: {
+                handleClick: function () {
+                    this.type = (this.type === "child-one" ? "child-two" : "child-one");
+                }
+            }
+        })
+    </script>
+</body>
+</html>
