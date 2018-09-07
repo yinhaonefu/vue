@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中列表过渡</title>
+    <script src="../js/vue-2.5.17.js"></script>
+    <style>
+        .v-enter, .v-leave-to{
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!--<transition-group>标签会把添加进来的每一个<div>用<transition>包裹起来，达到过渡动画效果-->
+        <transition-group>
+            <div v-for="item of list" :key="item.id">{{item.title}}</div>
+        </transition-group>
+        <button @click="handleAdd">add</button>
+    </div>
+    <script>
+        let count = 0;
+
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                list: []
+            },
+            methods: {
+                handleAdd: function () {
+                    this.list.push({id : count++, title: "hello world"});
+                }
+            }
+        })
+    </script>
+</body>
+</html>
