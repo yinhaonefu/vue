@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的动画封装</title>
+    <script src="../js/vue-2.5.17.js"></script>
+    <style>
+        /*.v-enter, .v-leave-to{*/
+            /*opacity: 0;*/
+        /*}*/
+        /*.v-enter-active, .v-leave-active{*/
+            /*transition: opacity 1s;*/
+        /*}*/
+    </style>
+</head>
+<body>
+    <div id="app">
+        <fade :show="show">
+            <div>hello</div>
+        </fade>
+
+        <fade :show="show">
+            <h1>hello</h1>
+        </fade>
+
+        <button @click="handleClick">click</button>
+    </div>
+    <script>
+        // 通过slot将要显示的元素传递到fade组件内部，可以复用fade组件效果
+        Vue.component("fade", {
+            props: ["show"],
+            template: "<transition @before-enter='handleBeforeEnter' " +
+                "@enter='handleEnter'>" +
+                "<slot v-if='show'></slot>" +
+                "</transition>",
+            methods: {
+                handleBeforeEnter: function (el) {
+                    el.style.color = "red";
+                },
+                handleEnter: function (el, done) {
+                    setTimeout(() => {
+                        el.style.color = "green";
+                        done();
+                    }, 2000)
+                }
+            }
+        })
+
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                show: false
+            },
+            methods: {
+                handleClick: function () {
+                    this.show = !this.show;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
